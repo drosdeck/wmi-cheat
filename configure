@@ -1,0 +1,8 @@
+#!/bin/bash
+DSDT="dsdt.dat"
+temp_dir=$(mktemp -d)
+
+ cat /sys/firmware/acpi/tables/DSDT >  $temp_dir/$DSDT || exit 
+ iasl -d  $temp_dir/$DSDT || exit
+  sed '/_WDG/,/Name/!d' $temp_dir/dsdt.dsl  | sed '/{/,/}/!d' | grep -v } | grep -v { > $temp_dir/wmi.dump
+ls $temp_dir        
