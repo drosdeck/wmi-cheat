@@ -96,32 +96,36 @@ static void parse_wdg(const void *data, size_t len)
 	const struct guid_block *gblock = data;
 	char guid_string[37];
 	uint32_t i, total;
-
+        FILE * fp;
+	fp = fopen ("bosta3.txt", "w+");
 	total = len / sizeof(struct guid_block);
 
 	for (i = 0; i < total; i++) {
 		const struct guid_block *g = &gblock[i];
 
 		wmi_gtoa(g->guid, guid_string);
-		printf("%s:\n", guid_string);
-		printf("\tobject_id: %c%c\n", g->object_id[0], g->object_id[1]);
-		printf("\tnotify_id: %02X\n", g->notify_id);
-		printf("\treserved: %02X\n", g->reserved);
-		printf("\tinstance_count: %d\n", g->instance_count);
-		printf("\tflags: %#x", g->flags);
+//		fprintf(fp,"%s:\n", guid_string);
+//		fprintf(fp,"\tobject_id: %c%c\n", g->object_id[0], g->object_id[1]);
+//		fprintf(fp,"\tnotify_id: %02X\n", g->notify_id);
+//		fprintf(fp,"\treserved: %02X\n", g->reserved);
+//		fprintf(fp,"\tinstance_count: %d\n", g->instance_count);
+//		fprintf(fp,"\tflags: %#x", g->flags);
 		if (g->flags) {
-			printf(" ");
-			if (g->flags & ACPI_WMI_EXPENSIVE)
-				printf("ACPI_WMI_EXPENSIVE ");
-			if (g->flags & ACPI_WMI_METHOD)
-				printf("ACPI_WMI_METHOD ");
-			if (g->flags & ACPI_WMI_STRING)
-				printf("ACPI_WMI_STRING ");
+//			printf(" ");
+//			if (g->flags & ACPI_WMI_EXPENSIVE)
+//				fprintf(fp,"ACPI_WMI_EXPENSIVE ");
+//			if (g->flags & ACPI_WMI_METHOD)
+//				fprintf(fp,"ACPI_WMI_METHOD ");
+//			if (g->flags & ACPI_WMI_STRING)
+//				fprintf(fp,"ACPI_WMI_STRING ");
 			if (g->flags & ACPI_WMI_EVENT)
-				printf("ACPI_WMI_EVENT ");
+		       	//	fprintf(fp,"ACPI_WMI_EVENT ");
+                		fprintf(fp,"%s\n", guid_string);
+
 		}
-		printf("\n");
+	//	fprintf(fp,"\n");
 	}
+	fclose(fp);
 }
 
 static void *parse_ascii_wdg(const char *wdg, size_t *bytes)
